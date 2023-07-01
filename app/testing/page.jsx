@@ -1,29 +1,34 @@
-'use client'
-import React, { useRef, useEffect } from 'react';
+"use client"
+import { useState } from "react";
+import {Html5QrcodeScanner} from "html5-qrcode";
 
-function CameraComponent() {
-  const videoRef = useRef(null);
 
-  useEffect(() => {
-    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-      navigator.mediaDevices
-        .getUserMedia({ video: true })
-        .then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-          }
-        })
-        .catch((error) => {
-          console.error('Error accessing camera:', error);
-        });
+
+const Test = ()=>{
+
+  const [ resulted , setResulted] = useState('')
+  const scanner = new Html5QrcodeScanner( 'reader',{
+    qrbox:{
+width:250,
+height:250
     }
-  }, []);
+    ,
+    fps: 5,
+  })
+scanner.render(success, error)
 
-  return (
-    <div>
-      <video ref={videoRef} autoPlay></video>
-    </div>
-  );
+  function success (result) {
+    scanner.clear()
+    setResulted(result)
+  }
+  function error (result) {
+    console.log(result)
+  }
+  return(<>
+
+    <div id="reader" width="600px"></div>
+    <p>{resulted}</p>
+  </>)
 }
 
-export default CameraComponent;
+export default Test

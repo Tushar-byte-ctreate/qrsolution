@@ -33,6 +33,13 @@ export default function QrCodeScanner() {
 //   const handleScanError = (error) => {
 //     console.error(error);
 //   };
+const handleDecode = (result) => {
+  console.log(result);
+} 
+
+const handleScannerLoad = (mode) => {
+  console.log(mode);
+}
 
   const toggleCamera = () => {
     setIsCameraActive(!isCameraActive);
@@ -44,16 +51,17 @@ export default function QrCodeScanner() {
     <>
     <div className="flex flex-col justify-center items-center">
     <h2 className='text-2xl font-bold m-1'>Scan The QR Code </h2>
-    {isCameraActive ? ( <><QrReader
+    {isCameraActive ? ( <> <QrReader
         onResult={(result, error) => {
           if (!!result) {
             setData(result?.text);
           }
+
           if (!!error) {
             console.info(error);
           }
         }}
-        className='w-60 h-auto'
+        className='w-96'
       />
        <div className= ' w-80 md:overflow-auto relative justify-between items-center  m-2 flex md:w-auto w-max-96 h-auto h-min-12  bg-slate-300 border border-purple-500'>  <p ref={textRef} className='m-1 w-max-96 h-auto overflow-auto'>{data} </p> <span onClick={copyToClipboard} className='m-1 text-purple-700 cursor-pointer '> <FaNoteSticky/></span> {isCopied && <p className='absolute top-2 right-7 bg-green-200 px-5 py-3 border border-green-600'>Text has been copied!</p>}</div></>
       ):(
